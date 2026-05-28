@@ -1,13 +1,13 @@
 import axios from 'axios'
 
-const baseURL = import.meta.env.VITE_API_BASE_URL || '/api'
+// 1. Ensure fallback combines the domain with the necessary routing prefix
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'https://tutor-brightmind-1.onrender.com/api'
 
 const api = axios.create({
   baseURL,
   timeout: 60000,
   headers: { 'Content-Type': 'application/json' }
 })
-
 
 // Intercept requests to add auth token
 api.interceptors.request.use(config => {
@@ -19,7 +19,9 @@ api.interceptors.request.use(config => {
         config.headers.Authorization = `Bearer ${state.token}`
       }
     }
-  } catch {}
+  } catch (error) {
+    console.error("Auth token parse error:", error)
+  }
   return config
 })
 
@@ -29,7 +31,8 @@ api.interceptors.response.use(
   err => {
     if (err.response?.status === 401) {
       localStorage.removeItem('auth-storage')
-      window.location.href = '/login'
+      // Safely redirect to /login relative to the frontend origin
+      window.location.href = '/auth' // Update to match your Auth.jsx route name if needed
     }
     return Promise.reject(err)
   }
