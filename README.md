@@ -1,4 +1,4 @@
-# 🎓 BrightMind AI Tutor Platform
+# 🎓 BrightMind AI Tutor Platform (WeB APP link : https://tutor-bright-mind.vercel.app/ )
 
 A production-ready, full-stack AI Tutor platform for CBSE students (Class 1–12, all subjects).
 
